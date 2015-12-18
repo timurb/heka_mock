@@ -1,5 +1,3 @@
-_G.cjson = require "cjson"
-
 -- Reset payload at the start of the test suite
 function _G.reset_payload( )
   _G._payload = {}
