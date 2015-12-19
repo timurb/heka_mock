@@ -40,22 +40,22 @@ Add val to payload.
 
 ### inject_payload()
 
-Injects payload to `_injected` variable and clears payload.
+Stores injected payload to test against it in and clears payload.
 
-### _injected
+### injected()
 
-Variable set by `inject_payload()`
+All injected messages since last `reset_payload()` merged into a single string.
 
 ### reset_payload()
 
-Reset payload and `_injected`. Run it before every test.
+Reset payload and stored `injected()` data. Run it before every test.
 
 ### mock_read_config(hash)
 
 Set values for `read_config()` called by encoder.
 If no paramater passed only the default config params will be set (see `default_config()`).
 
-### default_config(hash)
+### set_default_config(hash)
 
 If you need to set some config values shared by all tests define them here.
 Note: you still need to run `mock_read_config()` to set them.

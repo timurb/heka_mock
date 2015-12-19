@@ -3,7 +3,7 @@ package.path = "../?.lua;./?.lua;spec/?.lua;" .. package.path
 require "test_helper"
 _G.cjson = require "cjson"
 
-default_config({ Type="my_type" }) --
+set_default_config({ Type="my_type" }) --
 
 describe("my_encoder", function()
   it("accepts table and sends out message", function ()
@@ -16,6 +16,6 @@ describe("my_encoder", function()
 
     send_message({foo="bar"})
 
-    assert.is.equal('{"foo":"bar"}', _injected)
+    assert.is.equal('{"foo":"bar"}', injected())
   end)
 end)
