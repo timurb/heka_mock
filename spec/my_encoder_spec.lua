@@ -1,6 +1,7 @@
 package.path = "../?.lua;./?.lua;spec/?.lua;" .. package.path
 
 require "test_helper"
+_G.cjson = require "cjson"
 
 default_config({ Type="my_type" }) --
 
