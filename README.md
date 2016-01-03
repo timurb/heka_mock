@@ -32,7 +32,7 @@ $ busted
 API
 ---
 
-(See also [Heka docs](http://hekad.readthedocs.org/en/v0.10.0/sandbox/index.html) for heka behaviour of the functions)
+(See also [Heka docs](http://hekad.readthedocs.org/en/v0.10.0/sandbox/index.html) for real behaviour of the functions in heka)
 
 #### add_to_payload(val)
 
