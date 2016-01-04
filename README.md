@@ -40,7 +40,7 @@ Add val to payload.
 
 #### inject_payload(payload_type, payload_name, ...)
 
-Inject payload to injection list and clear current payload. 
+Inject payload to injection list and clear current payload.
 
 #### inject_message(msg)
 
@@ -89,7 +89,7 @@ If `val` is not nil format is a hash pair for text representation.
 
 Recursive function to convert table to string always preserving the same order of keys.
 Was *not* tested with mixed tables (like `{10,20,30,foo="bar"}`) and probably will not work with these.
-This is used inside helper codebase which means such arrays will produce crashes.
+This is used inside main codebase which means such arrays will produce crashes.
 
 #### bracketize(val)
 
