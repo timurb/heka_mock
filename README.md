@@ -17,7 +17,7 @@ luarocks install busted underscore
 
 Create `spec/` subdir in the dir with your lua modules:
 ```
----+--- spec/ -+- test_helper.lua
+---+--- spec/ -+- heka_mock.lua
    |           -- my_encoder_spec.lua
    ---- my_encoder.lua
 ```

@@ -1,4 +1,4 @@
-require "spec/test_helper"
+require "spec/heka_mock"
 
 describe("Heka mocks", function()
   describe("inject_payload()", function()

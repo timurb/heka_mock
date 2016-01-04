@@ -1,4 +1,4 @@
-require "spec/test_helper"
+require "spec/heka_mock"
 
 describe("encoder_raw", function()
   it("processes message", function ()
