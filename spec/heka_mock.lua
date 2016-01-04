@@ -73,6 +73,13 @@ function injected()
   return injected_messages
 end
 
+function _G.write_message()
+  error("write_message() is not implemented")
+end
+
+function _G.decode_message()
+  error("decode_message() is not implemented")
+end
 
 -- Mock "read_config" heka function
 -- Pass k:v pairs for config values and params
