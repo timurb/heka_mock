@@ -31,7 +31,7 @@ describe("Heka mocks", function()
 
     it("accepts type and name as params", function()
       inject_payload("foo","bar","baz")
-      assert.is.equal("{Payload=\'baz\',Fields[payload_type]=\'foo\',Fields[payload_name]=\'bar\'}", injected())
+      assert.is.equal("{Payload=\'baz\',Fields__payload_type=\'foo\',Fields__payload_name=\'bar\'}", injected())
     end)
   end)
 
@@ -109,6 +109,14 @@ describe("Helper methods (NOT SUPPORTED IN HEKA):", function()
       assert.is.equal("1", tostring_sorted(1))
     end)
 
+    it("doesn't quote standalone strings", function ()
+      assert.is.equal("foo", tostring_sorted("foo"))
+    end)
+
+    it("quotes strings in tables", function ()
+      assert.is.equal("{'foo'}", tostring_sorted({"foo"}))
+    end)
+
     it("converts array to string", function ()
       sorted = tostring_sorted({1,2,3})
       assert.is_not_nil(sorted)
@@ -125,6 +133,12 @@ describe("Helper methods (NOT SUPPORTED IN HEKA):", function()
       sorted = tostring_sorted({one=1,two=2,three={nested=true}})
       assert.is_not_nil(sorted)
       assert.is.equal("{one=1,three={nested=true},two=2}", sorted)
+    end)
+
+    it("quotes string one level below", function ()
+      sorted = tostring_sorted({one=1,two=2,three={nested="foo"}})
+      assert.is_not_nil(sorted)
+      assert.is.equal("{one=1,three={nested='foo'},two=2}", sorted)
     end)
 
     it("supports nested arrays", function ()

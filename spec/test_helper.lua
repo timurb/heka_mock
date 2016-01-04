@@ -44,13 +44,17 @@ function _G.inject_payload(payload_type, payload_name, ...)
      add_to_payload(x)
   end
 
-  payload = _.map(payload, tostring_sorted)
-  local msg = { format_payload(_.join(payload)) }
+  string_payload = {}
+  for _, k in ipairs(payload) do
+    table.insert(string_payload, tostring_sorted(k))
+  end
+  local msg = { format_payload(table.concat(string_payload)) }
 
-  table.insert(msg, format_kv("Fields[payload_type]", payload_type))
-  table.insert(msg, format_kv("Fields[payload_name]", payload_name))
 
-  local result = bracketize(_.join(msg,","))
+  table.insert(msg, format_kv("Fields__payload_type", payload_type))
+  table.insert(msg, format_kv("Fields__payload_name", payload_name))
+
+  local result = bracketize(table.concat(msg,","))
 
   -- Lua doesn't support equality of arrays in assertions that's why we use strings here
   if injected_messages then
@@ -154,11 +158,19 @@ end
 
 -- Convert object to string with sorting of tables
 -- Note: doesn't support mixed tables
-function tostring_sorted(val)
+function tostring_sorted(val, quote)
   if type(val) == "number" then
     return string.format("%d", val)
+  elseif type(val) == "boolean" then
+    return string.format("%s", val)
+  elseif type(val) == "string" then
+    if quote then
+      return string.format("'%s'", val)
+    else
+      return val
+    end
   elseif type(val) ~= "table" then
-    return tostring(val)
+    error("Unsupported type:" .. type(val))
   end
 
   local keys = _.keys(val)
@@ -168,14 +180,14 @@ function tostring_sorted(val)
 
   _.each(keys, function(key)
     if type(key) == "number" then
-      key = tostring_sorted(val[key])
+      key = tostring_sorted(val[key], true)
     else
-      key = string.format("%s=%s", key, tostring_sorted(val[key]))
+      key = string.format("%s=%s", key, tostring_sorted(val[key], true))
     end
     table.insert(result, key)
   end)
 
-  result = bracketize(_.join(result, ","))
+  result = bracketize(table.concat(result, ","))
 
   return result
 end
