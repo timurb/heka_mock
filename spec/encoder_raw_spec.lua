@@ -8,6 +8,6 @@ describe("encoder_raw", function()
     mock_read_message({Severity=7,Timestamp=1451844654000000000})
 
     process_message()
-    assert.is.equal('{Payload=\'{Severity=7,Timestamp=1451844654000000000}\',Fields[payload_type]=\'json\',Fields[payload_name]=\'message_table\'}', injected())
+    assert.is.equal('{Payload=\'{Severity=7,Timestamp=1451844654000000000}\',Fields__payload_type=\'json\',Fields__payload_name=\'message_table\'}', injected())
   end)
 end)
