@@ -1,4 +1,5 @@
 require "spec/heka_mock"
+require "spec/test_helper"
 
 _G.cjson = require "cjson"
 
@@ -7,13 +8,7 @@ describe("encoder_json", function()
     reset_all() -- run this before every test
 
     dofile "encoder_json.lua"       -- don't use "require", use "dofile"
-    mock_read_message({
-      Payload="original",
-      Type="my_type",
-      Pid=12345,
-      Severity=4,
-      Timestamp=54321
-    })
+    mock_read_message(test_message)
 
     process_message()
     code = "return " .. injected()
@@ -27,10 +22,11 @@ describe("encoder_json", function()
 
     payload = cjson.decode(payload)
     assert.is.table(payload)
-    assert.is.equal("original", payload.Payload)
-    assert.is.equal("my_type", payload.Type)
+    assert.is.equal(54321, payload.Timestamp)
     assert.is.equal(12345, payload.Pid)
     assert.is.equal(4, payload.Severity)
-    assert.is.equal(54321, payload.Timestamp)
+    assert.is.equal("hostname", payload.Hostname)
+    assert.is.equal("original", payload.Payload)
+    assert.is.equal("my_type", payload.Type)
   end)
 end)
