@@ -73,7 +73,7 @@ end
 
 function _G.inject_message(msg)
 --  inject_payload(nil, nil, tostring_sorted(msg))
-  _add_to_injected(tostring_sorted(msg))
+  _add_to_injected(msg)
   payload = {}
 end
 
