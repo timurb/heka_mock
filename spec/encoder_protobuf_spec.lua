@@ -9,6 +9,6 @@ describe("encoder_protobuf", function()
     mock_read_message(test_message)
 
     process_message()
-    assert.is.equal('{Payload=\'{Hostname=\'hostname\',Payload=\'mutated\',Pid=12345,Severity=4,Timestamp=54321,Type=\'after\'}\'}', injected())
+    assert.is.equal('{Hostname=\'hostname\',Payload=\'mutated\',Pid=12345,Severity=4,Timestamp=54321,Type=\'after\'}', injected())
   end)
 end)

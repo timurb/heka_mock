@@ -36,6 +36,16 @@ function _G.add_to_payload(value)
   table.insert(payload, value)
 end
 
+--- Helper function to update injected messages
+function _add_to_injected( msg )
+  -- Lua doesn't support equality of arrays in assertions that's why we use strings here
+  if injected_messages then
+    injected_messages = injected_messages .. delimiter .. msg
+  else
+    injected_messages = msg
+  end
+end
+
 -- Several consecutive messages are concated as strings
 -- "payload_type" and "payload_name" params are ignored
 function _G.inject_payload(payload_type, payload_name, ...)
@@ -56,17 +66,15 @@ function _G.inject_payload(payload_type, payload_name, ...)
 
   local result = bracketize(table.concat(msg,","))
 
-  -- Lua doesn't support equality of arrays in assertions that's why we use strings here
-  if injected_messages then
-    injected_messages = injected_messages .. delimiter .. result
-  else
-    injected_messages = result
-  end
+  _add_to_injected(result)
+
   payload = {}
 end
 
 function _G.inject_message(msg)
-  inject_payload(nil, nil, tostring_sorted(msg))
+--  inject_payload(nil, nil, tostring_sorted(msg))
+  _add_to_injected(tostring_sorted(msg))
+  payload = {}
 end
 
 function injected()

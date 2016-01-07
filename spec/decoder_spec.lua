@@ -7,9 +7,9 @@ describe("decoder", function()
     reset_all() -- run this before every test
 
     dofile "decoder.lua"       -- don't use "require", use "dofile"
-    mock_read_message({Payload="1451844654 debug"})
+    mock_read_message({Payload="1376389920 debug id=2321 url=example.com item=1"})
 
     process_message()
-    assert.is.equal('{Payload=\'{Fields={},Severity=\'7\',Timestamp=\'1451844654000000000\'}\'}', injected())
+    assert.is.equal('{Fields={id=\'2321\',item=\'1\',url=\'example.com\'},Severity=\'7\',Timestamp=\'1376389920000000000\'}', injected())
   end)
 end)
