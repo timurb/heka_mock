@@ -12,7 +12,7 @@ Usage
 
 Install busted:
 ```
-luarocks install busted underscore
+luarocks install busted
 ```
 
 Create `spec/` subdir in the dir with your lua modules:
@@ -64,7 +64,7 @@ Reset payload and injection list. Run it before every test.
 
 #### write_message(), decode_message()
 
-Produce error.
+Produces error.
 These function provided by Heka are not implemented as I don't quite understand what is their use case in lua code. Probably you should use Heka-provided test suite to test again these.
 
 
@@ -75,7 +75,9 @@ These function provided by Heka are not implemented as I don't quite understand 
 Set values for `read_message()` called by encoder.
 As in upstream `read_message("raw")` should return table with original unprocessed message for further handling.
 
-**Note:** array values (`read_message("Fields[foo]", 1, 2)`) are not supported as they are not widely used. Probably they'll be supported in a later release of the library.
+**Note:** no checking is done for non-standard Heka fields -- no errors are produced and they are not dropped while Heka will do either of these
+
+**Note:** array values (`read_message("Fields[foo]", 1, 2)` -- 2+ params) are not supported as they are not widely used. Probably they'll be supported in a later release of this library.
 
 
 #### mock_read_config(hash)

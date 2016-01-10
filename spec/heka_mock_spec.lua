@@ -1,4 +1,5 @@
 require "spec/heka_mock"
+require "spec/test_helper"
 
 describe("Heka mocks", function()
   describe("inject_payload()", function()
@@ -36,7 +37,7 @@ describe("Heka mocks", function()
       assert.is.equal("barbaz", msg.Payload)
     end)
 
-    it("NOT SUPPORTED IN HEKA: works without payload ", function()
+    it("NOT SUPPORTED IN HEKA: works without payload", function()
       inject_payload(nil,nil)
       result = injected()
       assert.is.table(result)
@@ -55,6 +56,15 @@ describe("Heka mocks", function()
       assert.is.table(fields)
       assert.is.equal("foo", fields.payload_type)
       assert.is.equal("bar", fields.payload_name)
+    end)
+
+    it("works when called several times", function()
+      inject_payload(nil,nil,"bar")
+      inject_payload(nil,nil,"baz")
+      result = injected()
+      assert.is.equal(2, #result)
+      assert.is.equal("bar", result[1].Payload)
+      assert.is.equal("baz", result[2].Payload)
     end)
   end)
 
@@ -98,5 +108,50 @@ describe("Heka mocks", function()
       local msg = read_message("raw")
       assert.is.equal("bar", msg.foo)
     end)
+
+    it("is able to process custom fields", function()
+      mock_read_message(test_message)
+
+      local msg = read_message("Fields[foo]")
+      assert.is.equal("bar", msg)
+    end)
   end)
+
+  describe("inject_message()", function ()
+    before_each(function()
+      reset_all()
+    end)
+
+    it("injects message", function ()
+      inject_message({Payload="foo"})
+      result = injected()
+      assert.is.table(result)
+      assert.is.equal(1, #result)
+      msg = result[1]
+      assert.is.table(msg)
+      assert.is.equal("foo", msg.Payload)
+      assert.is.table(msg.Fields)
+    end)
+  end)
+
+  describe("read_config()", function()
+    before_each(function()
+      reset_all()
+    end)
+
+    it("returns mocked config value", function()
+      mock_read_config({foo="bar"})
+
+      local cfg = read_config("foo")
+      assert.is.equal("bar", cfg)
+    end)
+
+    it("returns nil when no value mocked", function()
+      mock_read_config({foo="bar"})
+
+      local cfg = read_config("baz")
+      assert.is.equal(nil, cfg)
+    end)
+  end)
+
 end)

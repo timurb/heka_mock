@@ -4,5 +4,8 @@ test_message = {
   Pid=12345,
   Severity=4,
   Timestamp=54321,
-  Hostname="hostname"
+  Hostname="hostname",
+  Fields = {
+    foo="bar"
+  }
 }

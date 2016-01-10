@@ -1,7 +1,5 @@
 package.path = "../?.lua;./?.lua;spec/?.lua;" .. package.path
 
-_ = require "underscore"
-
 local payload
 local injected_messages
 local delimiter = nil
@@ -56,6 +54,7 @@ function _G.inject_payload(payload_type, payload_name, ...)
 end
 
 function _G.inject_message(msg)
+  if not msg.Fields then msg.Fields = {} end
   _add_to_injected(msg)
   payload = {}
 end
@@ -106,8 +105,15 @@ end
 -- Pass k:v pairs for config values and params
 function mock_read_message(keys)
   local msg = {}
+  local field
 
   if keys then
+    if keys.Fields then
+      for k,v in pairs(keys.Fields) do
+        msg["Fields[" .. k .. "]"] = v
+      end
+    end
+
     for k,v in pairs(keys) do
       msg[k] = v
     end
