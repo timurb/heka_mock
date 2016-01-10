@@ -14,7 +14,8 @@ describe("my_encoder", function()
     dofile "my_encoder.lua"       -- don't use "require", use "dofile"
 
     send_message({foo="bar"})
+    result = injected()[1]
 
-    assert.is.equal('{Payload=\'{"foo":"bar"}\'}', injected())
+    assert.is.equal('{"foo":"bar"}', result.Payload)
   end)
 end)

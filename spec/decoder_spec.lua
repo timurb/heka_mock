@@ -12,7 +12,7 @@ describe("decoder", function()
     mock_read_message({Payload="1376389920 debug id=2321 url=example.com item=1"})
 
     process_message()
-    result = injected()
+    result = injected()[1]
     assert.is.equal("7", result.Severity)
     assert.is.equal("1376389920000000000", result.Timestamp)
     assert.is.table(result.Fields)
@@ -26,9 +26,10 @@ describe("decoder", function()
     mock_read_message({Payload="1376389920 bogus id=2321 url=example.com item=1"})
 
     err, msg = process_message()
-    result = injected()
     assert.is.equal(-1, err)
     assert.is.equal('LPeg grammar failed to match', msg)
-    assert.is.equal(nil, result)
+
+    result = injected()
+    assert.is.equal(0, #result)
   end)
 end)

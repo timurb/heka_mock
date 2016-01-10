@@ -10,7 +10,7 @@ local default_config
 -- Reset payload at the start of the test suite
 function reset_payload( )
   payload = {}
-  injected_messages = nil
+  injected_messages = {}
 end
 reset_payload()
 
@@ -37,13 +37,8 @@ function _G.add_to_payload(value)
 end
 
 --- Helper function to update injected messages
-function _add_to_injected( msg )
-  -- Lua doesn't support equality of arrays in assertions that's why we use strings here
-  if injected_messages then
-    injected_messages = injected_messages .. delimiter .. msg
-  else
-    injected_messages = msg
-  end
+function _add_to_injected(msg)
+  table.insert(injected_messages, msg)
 end
 
 -- Several consecutive messages are concated as strings
@@ -54,19 +49,15 @@ function _G.inject_payload(payload_type, payload_name, ...)
      add_to_payload(x)
   end
 
-  string_payload = {}
-  for _, k in ipairs(payload) do
-    table.insert(string_payload, tostring_sorted(k))
-  end
-  local msg = { format_payload(table.concat(string_payload)) }
+  local fields = {}
+  fields.payload_type = payload_type
+  fields.payload_name = payload_name
 
+  local msg = {}
+  msg.Payload = table.concat(payload, delimiter)
+  msg.Fields = fields
 
-  table.insert(msg, format_kv("Fields__payload_type", payload_type))
-  table.insert(msg, format_kv("Fields__payload_name", payload_name))
-
-  local result = bracketize(table.concat(msg,","))
-
-  _add_to_injected(result)
+  _add_to_injected(msg)
 
   payload = {}
 end

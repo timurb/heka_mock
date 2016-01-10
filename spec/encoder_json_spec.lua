@@ -11,11 +11,9 @@ describe("encoder_json", function()
     mock_read_message(test_message)
 
     process_message()
-    code = "return " .. injected()
-    result = assert(loadstring(code))()
-    assert.is.table(result)
-    assert.is.equal("json", result.Fields__payload_type)
-    assert.is.equal("message_table", result.Fields__payload_name)
+    result = injected()[1]
+    assert.is.equal("json", result.Fields.payload_type)
+    assert.is.equal("message_table", result.Fields.payload_name)
 
     payload = result.Payload
     assert.is.string(payload)

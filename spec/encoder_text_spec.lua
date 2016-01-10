@@ -9,6 +9,9 @@ describe("encoder_text", function()
     mock_read_message(test_message)
 
     process_message()
-    assert.is.equal('{Payload=\'Prefixed original\',Fields__payload_type=\'txt\',Fields__payload_name=\'\'}', injected())
+    result = injected()[1]
+    assert.is.equal("Prefixed original", result.Payload)
+    assert.is.equal("txt", result.Fields.payload_type)
+    assert.is.equal("", result.Fields.payload_name)
   end)
 end)

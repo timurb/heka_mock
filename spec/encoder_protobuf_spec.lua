@@ -9,8 +9,7 @@ describe("encoder_protobuf", function()
     mock_read_message(test_message)
 
     process_message()
-    result = injected()
-    assert.is.table(result)
+    result = injected()[1]
     assert.is.equal(54321, result.Timestamp)
     assert.is.equal(12345, result.Pid)
     assert.is.equal(4, result.Severity)
