@@ -36,13 +36,6 @@ function _G.add_to_payload(value)
   table.insert(payload, value)
 end
 
---- Helper function to update injected messages
-function _add_to_injected(msg)
-  table.insert(injected_messages, msg)
-end
-
--- Several consecutive messages are concated as strings
--- "payload_type" and "payload_name" params are ignored
 function _G.inject_payload(payload_type, payload_name, ...)
 
   for _, x in ipairs({...}) do
@@ -63,13 +56,8 @@ function _G.inject_payload(payload_type, payload_name, ...)
 end
 
 function _G.inject_message(msg)
---  inject_payload(nil, nil, tostring_sorted(msg))
   _add_to_injected(msg)
   payload = {}
-end
-
-function injected()
-  return injected_messages
 end
 
 function _G.write_message()
@@ -78,6 +66,16 @@ end
 
 function _G.decode_message()
   error("decode_message() is not implemented")
+end
+
+--- Helper function to handle injected messages
+
+function _add_to_injected(msg) -- not for public use
+  table.insert(injected_messages, msg)
+end
+
+function injected()
+  return injected_messages
 end
 
 -- Mock "read_config" heka function
@@ -128,7 +126,7 @@ function mock_read_message(keys)
   end
 end
 
--- Use this func to set default config params to use in mock_read_config()
+-- Helper function to set default config params for use in several mock_read_config() calls
 -- This function does NOT create any mocks
 function set_default_config(config)
   if config then
@@ -138,67 +136,3 @@ function set_default_config(config)
   end
 end
 set_default_config()
-
-----
----- Helper functions
-----
-
----- Formatting functions
-
-function format_payload(val)
-  if val and #val > 0 then
-    return string.format("Payload='%s'", val)
-  else
-    return "Payload=nil"
-  end
-end
-
-function format_kv(key, val)
-  if val then
-    return string.format("%s=\'%s\'", key, val)
-  else
-    return nil
-  end
-end
-
-
--- Convert object to string with sorting of tables
--- Note: doesn't support mixed tables
-function tostring_sorted(val, quote)
-  if type(val) == "number" then
-    return string.format("%d", val)
-  elseif type(val) == "boolean" then
-    return string.format("%s", val)
-  elseif type(val) == "string" then
-    if quote then
-      return string.format("'%s'", val)
-    else
-      return val
-    end
-  elseif type(val) ~= "table" then
-    error("Unsupported type:" .. type(val))
-  end
-
-  local keys = _.keys(val)
-  table.sort(keys)
-
-  local result = {}
-
-  _.each(keys, function(key)
-    if type(key) == "number" then
-      key = tostring_sorted(val[key], true)
-    else
-      key = string.format("%s=%s", key, tostring_sorted(val[key], true))
-    end
-    table.insert(result, key)
-  end)
-
-  result = bracketize(table.concat(result, ","))
-
-  return result
-end
-
--- A function to enclose value into brackets
-function bracketize(val)
-  return '{' .. val .. '}'
-end

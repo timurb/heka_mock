@@ -88,30 +88,3 @@ If no paramater passed only the default config params will be set (see `default_
 
 If you need to set some config values shared by all tests define them here.
 Note: you still need to run `mock_read_config()` to set them.
-
-
-### Helper functions
-
-These functions are used to simplify test helper. Reuse them in your tests at your own risk.
-
-
-#### format_payload(val)
-
-Format passed value as a payload for text representation.
-
-
-#### format_kv(key, val)
-
-If `val` is not nil format is a hash pair for text representation.
-
-
-#### tostring_sorted(val)
-
-Recursive function to convert table to string always preserving the same order of keys.
-Was *not* tested with mixed tables (like `{10,20,30,foo="bar"}`) and probably will not work with these.
-This is used inside main codebase which means such arrays will produce crashes.
-
-
-#### bracketize(val)
-
-Enclose value in curly brackets: `"{val}"`
