@@ -102,10 +102,11 @@ describe("Heka mocks", function()
       assert.is.equal("1451844654 debug", msg)
     end)
 
-    it("returns raw message when asked", function()
+    it("returns raw message for processing with decode_message()", function()
+      -- NOTE: raw message is not compatible with Heka internals. Use it only with decode_message()
       mock_read_message({foo="bar"})
 
-      local msg = read_message("raw")
+      local msg = decode_message(read_message("raw"))
       assert.is.equal("bar", msg.foo)
     end)
 
@@ -154,4 +155,20 @@ describe("Heka mocks", function()
     end)
   end)
 
+  describe("decode_message()", function()
+    it("decodes message returned by read_message('raw')", function()
+       local msg = "foobar"
+       local raw_msg = {_raw=msg}
+       local decoded = decode_message(raw_msg)
+       assert.is.equal("foobar", decoded)
+    end)
+
+    it("decodes table returned by read_message('raw')", function()
+       local msg = {foo="bar"}
+       local raw_msg = {_raw=msg}
+       local decoded = decode_message(raw_msg)
+       assert.is.table(decoded)
+       assert.is.equal("bar", decoded.foo)
+    end)
+  end)
 end)

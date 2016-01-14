@@ -63,8 +63,8 @@ function _G.write_message()
   error("write_message() is not implemented")
 end
 
-function _G.decode_message()
-  error("decode_message() is not implemented")
+function _G.decode_message(msg)
+  return msg._raw
 end
 
 --- Helper function to handle injected messages
@@ -121,7 +121,7 @@ function mock_read_message(keys)
 
   function _G.read_message(key)
     if key == "raw" then
-      return msg
+      return {_raw=msg}
     end
 
     for k,v in pairs(msg) do
