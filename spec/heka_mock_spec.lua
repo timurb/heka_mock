@@ -133,6 +133,17 @@ describe("Heka mocks", function()
       assert.is.equal("foo", msg.Payload)
       assert.is.table(msg.Fields)
     end)
+
+    it("produces an error if there is some payload", function ()
+      add_to_payload("foo")
+      assert.has.errors(function () inject_message({Payload="foo"}) end)
+    end)
+
+    it("doesn't produces an error if there is some payload but you've run ignore_payload_error", function ()
+      ignore_payload_error(true)
+      add_to_payload("foo")
+      assert.has_no.errors(function () inject_message({Payload="foo"}) end)
+    end)
   end)
 
   describe("read_config()", function()

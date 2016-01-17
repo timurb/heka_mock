@@ -4,6 +4,7 @@ local payload
 local injected_messages
 local delimiter = nil
 local default_config
+local _ignore_payload_error
 
 -- Reset payload at the start of the test suite
 function reset_payload( )
@@ -54,6 +55,10 @@ function _G.inject_payload(payload_type, payload_name, ...)
 end
 
 function _G.inject_message(msg)
+  if #payload > 0 and not _ignore_payload_error then
+    error("Payload is not empty and will be destroyed. This is probably not what you want. If you know what you are doing run ignore_payload_error(true).")
+  end
+
   if not msg.Fields then msg.Fields = {} end
   _add_to_injected(msg)
   payload = {}
@@ -131,6 +136,11 @@ function mock_read_message(keys)
     return nil
   end
 end
+
+function ignore_payload_error(ignore)
+  _ignore_payload_error = ignore
+end
+ignore_payload_error(false)
 
 -- Helper function to set default config params for use in several mock_read_config() calls
 -- This function does NOT create any mocks
