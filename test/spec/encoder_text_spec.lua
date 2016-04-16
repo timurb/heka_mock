@@ -1,4 +1,4 @@
-require "spec/heka_mock"
+require "heka_mock"
 require "spec/test_helper"
 
 describe("encoder_text", function()

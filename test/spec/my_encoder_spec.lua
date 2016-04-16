@@ -1,4 +1,4 @@
-require "spec/heka_mock"
+require "heka_mock"
 
 _G.cjson = require "cjson"
 
