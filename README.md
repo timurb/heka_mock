@@ -135,7 +135,6 @@ Contributing
 3. Write the tests
 4. Create pull request
 
-License and Authors
+License
 -------------------
-* Author: Timur Batyrshin
-* License: MIT
+Copyright 2015-2016, Timur Batyrshin. License: MIT. See [LICENSE](LICENSE) for details.
