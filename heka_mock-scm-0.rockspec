@@ -18,6 +18,6 @@
  build = {
     type = "builtin",
     modules = {
-      heka_mock = "spec/heka_mock.lua"
+      heka_mock = "heka_mock.lua"
     }
  }

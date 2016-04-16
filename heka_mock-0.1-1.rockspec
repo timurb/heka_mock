@@ -1,8 +1,8 @@
  package = "heka_mock"
- version = "0.1-1"
+ version = "0.1-2"
  source = {
     url = "git://github.com/timurb/heka_mock.git",
-    tag = "v0.1-1"
+    tag = "v0.1"
  }
  description = {
     summary = "Helper for unit-testing of Heka lua sandboxes",
@@ -18,6 +18,6 @@
  build = {
     type = "builtin",
     modules = {
-      heka_mock = "spec/heka_mock.lua"
+      heka_mock = "heka_mock.lua"
     }
  }
