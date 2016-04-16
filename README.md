@@ -12,7 +12,7 @@ Usage
 
 Install busted:
 ```
-luarocks install busted
+luarocks install busted lua-cjson lpeg
 ```
 
 Create `spec/` subdir in the dir with your lua modules:
