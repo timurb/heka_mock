@@ -3,24 +3,26 @@ Helper for testing Lua sandboxes
 
 This is a helper to do unit testing of Heka lua sandboxes: encoders and decoders.
 
-It is in Proof-Of-Concept stage: use at own risk.
+It is in alpha stage: some features may be missing or working incorrectly.
 
-Contributions are welcome
+Contributions are welcome. See [CONTRIBUTIONS.md] for details.
 
 Usage
 -----
 
-Install busted:
+Install heka_mock, busted (or other Lua test suite) and other Lua modules you need:
 ```
-luarocks install busted lua-cjson lpeg
+luarocks install heka_mock busted lua-cjson lpeg
 ```
 
 Create `spec/` subdir in the dir with your lua modules:
 ```
----+--- spec/ -+- heka_mock.lua
-   |           -- my_encoder_spec.lua
+---+--- spec/ --- my_encoder_spec.lua
    ---- my_encoder.lua
 ```
+
+Example of specs can be found at https://github.com/timurb/heka_mock/tree/master/test/spec.
+For detailed APIs see [#API] section below.
 
 Run tests:
 ```
@@ -28,6 +30,26 @@ $ busted
 ●
 1 success / 0 failures / 0 errors / 0 pending : 0.004586 seconds
 ```
+
+Running tests for heka_mock
+---------------------------
+
+```
+luarocks install heka_mock busted lua-cjson lpeg
+git clone git@github.com:timurb/heka_mock.git
+cd heka_mock/test
+busted
+```
+
+Expected output:
+```
+$ busted
+●●●●●●●●●●●●●●●●●●●●●●●●
+24 successes / 0 failures / 0 errors / 0 pending : 0.017647 seconds
+```
+
+Dependencies of `lua-cjson` and `lpeg` are required only for running tests for heka_mock, you may not need this in your setup.
+
 
 API
 ---
@@ -73,6 +95,13 @@ Reset payload and injection list. Run it before every test.
 
 Produces error.
 These function provided by Heka are not implemented as I don't quite understand what is their use case in lua code. Probably you should use Heka-provided test suite to test again these.
+
+
+#### read_next_field()
+
+Not implemented.
+I didn't have any use case for this so didn't create this one.
+May be one day I fix this or merge your pull request for this.
 
 
 ### Mocks
