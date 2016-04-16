@@ -5,7 +5,7 @@ This is a helper to do unit testing of Heka lua sandboxes: encoders and decoders
 
 It is in alpha stage: some features may be missing or working incorrectly.
 
-Contributions are welcome. See [CONTRIBUTIONS.md] for details.
+Contributions are welcome. See [Contributing](#contributing) for details.
 
 Usage
 -----
@@ -22,7 +22,7 @@ Create `spec/` subdir in the dir with your lua modules:
 ```
 
 Example of specs can be found at https://github.com/timurb/heka_mock/tree/master/test/spec.
-For detailed APIs see [#API] section below.
+For detailed APIs see [API](#api) section below.
 
 Run tests:
 ```
@@ -126,3 +126,16 @@ If no paramater passed only the default config params will be set (see `default_
 
 If you need to set some config values shared by all tests define them here.
 Note: you still need to run `mock_read_config()` to set them.
+
+
+Contributing
+------------
+1. Fork repository
+2. Do the fix
+3. Write the tests
+4. Create pull request
+
+License and Authors
+-------------------
+* Author: Timur Batyrshin
+* License: MIT
