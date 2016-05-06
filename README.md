@@ -82,7 +82,7 @@ Processes message returned by `read_message("raw")` to table.
 #### injected()
 (NOT IMPLEMENTED IN HEKA UPSTREAM)
 
-All injected messages since last `reset_payload()` merged into a single string.
+Returns a table with all injected messages since last `reset_payload()`.
 
 
 #### reset_payload()
